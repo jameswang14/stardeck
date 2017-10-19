@@ -6,7 +6,8 @@
 define([
     'lib/pixi.min',
     'app/objects/Slot'
-    ], function(PIXI, Slot) {
+    ], 
+    function(PIXI, Slot) {
         var instance = null;
         function GameStateManager() {
             if (instance !== null) {
@@ -15,9 +16,21 @@ define([
             this.initalize();
         }
 
+        var numSlots = 3;
+        var slotPadding = 0;
+        var slotWidth = 75;
+        var slotHeight = 100;
+
         GameStateManager.prototype = {
             initalize() {
-                this.slot = new Slot([200, 200]);
+                slots = [];
+                var startX = 200;
+                var startY = 200;
+                for (var i = 0; i < numSlots; i++) {
+                    slots.push(new Slot(startX, startY, slotWidth, slotHeight));
+                    startX += slotWidth + slotPadding;
+                } 
+                this.slots = slots;
             }
         };
 

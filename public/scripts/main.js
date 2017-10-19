@@ -3,13 +3,11 @@ requirejs(
     [
         'lib/pixi.min',
         'lib/Tink',
-        'utils/hitTestRectangle',
         'app/objects/Field',
         'app/objects/Card',
-        'app/InteractionManager',
         'app/GameStateManager',
     ],
-function(PIXI, Tink, hitTestRectangle, Field, Card, InteractionManager, GameStateManager) {
+function(PIXI, Tink, Field, Card, GameStateManager) {
     //Aliases
     var Container = PIXI.Container,
         autoDetectRenderer = PIXI.autoDetectRenderer,
@@ -19,24 +17,20 @@ function(PIXI, Tink, hitTestRectangle, Field, Card, InteractionManager, GameStat
         Rectangle = PIXI.Rectangle,
         TextureCache = PIXI.utils.TextureCache;
 
+    const app = new PIXI.Application();
+    const stage = app.stage;
+    const renderer = app.renderer;
+
+    document.body.appendChild(app.view);
+
     var state = pause;
-    var renderer = autoDetectRenderer(256, 256);
-
-    var t = new Tink(PIXI, renderer.view);
+    var t = new Tink(PIXI, app.view);
     var pointer = t.makePointer();
-
-    //Add the canvas to the HTML document
-    document.body.appendChild(renderer.view);
-
-    //Create a container object called the `stage`
-    var stage = new Container();
-
-    console.log(GameStateManager);
 
     var playerOneHand = new Container();
     var playerTwoHand = new Container();
-    playerTwoHand.position.set(500, 300);
-    playerOneHand.position.set(500, 500);
+    playerTwoHand.position.set(300, 300);
+    playerOneHand.position.set(300, 400);
     stage.addChild(playerOneHand);
     stage.addChild(playerTwoHand)
 
@@ -50,18 +44,18 @@ function(PIXI, Tink, hitTestRectangle, Field, Card, InteractionManager, GameStat
       .add("images/zealot-sheet.png")
       .add("images/dark-templar-sheet.png")
       .add("images/marine-sheet.png")
+      .add("images/rect.svg")
       .load(setup);
 
-    // Store references to all interactable objects to detect collisions
-    var allInteractableObjects = [];
-
     function setup() {
-
-
         setupProtoss();
         setupTerran();
 
-        //Tell the `renderer` to `render` the `stage`
+        // Add all slots;
+        for (slot of GameStateManager.slots) {
+            stage.addChild(slot);
+        }
+
         renderer.render(stage);
         state = play;
     }
@@ -69,9 +63,8 @@ function(PIXI, Tink, hitTestRectangle, Field, Card, InteractionManager, GameStat
     function setupProtoss() {
         var zealotTexture = TextureCache["images/zealot-sheet.png"];
         var darkTemplarTexture = TextureCache["images/dark-templar-sheet.png"];
-
-        var zealotBasePosition = [0, 0];
-        var darkTemplarBasePosition = [70, 0];
+        var zealotBasePosition = new PIXI.Point(70, 0);
+        var darkTemplarBasePosition = new PIXI.Point(0, 0);
 
         //Create a rectangle object that defines the position and
         //size of the sub-image you want to extract from the texture
@@ -89,7 +82,7 @@ function(PIXI, Tink, hitTestRectangle, Field, Card, InteractionManager, GameStat
 
     function setupTerran() {
         var marineTexture = TextureCache["images/marine-sheet.png"];
-        var marineBasePosition = [0, 0];
+        var marineBasePosition = new PIXI.Point(0, 0);
 
         var rectangle = new Rectangle(192, 12, 20, 28);
         marineTexture.frame = rectangle;
