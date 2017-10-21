@@ -5,6 +5,7 @@
   "scripts": {
     "build": "webpack",
     "build-dev": "webpack --watch --devtool=source-map",
+    "test": "mocha",
     "start": "npm run build | node app.js"
   },
   "dependencies": {
@@ -17,6 +18,7 @@
     "serve-favicon": "~2.3.0"
   },
   "devDependencies": {
+    "mocha": "^4.0.1",
     "webpack": "^3.8.1"
   }
 }
