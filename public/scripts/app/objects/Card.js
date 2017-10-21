@@ -1,5 +1,6 @@
 import 'pixi.js'
 import InteractionManager from 'app/InteractionManager'
+import CardStatusEnum from 'app/enums/CardStatusEnum'
 
 export default class Card extends PIXI.Sprite {
     constructor(texture, name, basePosition) {
@@ -10,7 +11,8 @@ export default class Card extends PIXI.Sprite {
         this.interactive = true;
         this.buttonMode = true;
         this.anchor.set(0.5);
-        this.hitArea = this.getBounds();
+
+        this.status = CardStatusEnum.IN_DECK;
 
         // setup events
         this
@@ -31,6 +33,7 @@ export default class Card extends PIXI.Sprite {
     }
     resetToBasePosition() {
         this.position = this.basePosition;
+        this.interactive = true;
     }
     onDragStart(event) {
         // store a reference to the data
@@ -40,7 +43,7 @@ export default class Card extends PIXI.Sprite {
         this.dragging = true;
     }
     onDragEnd() {
-        InteractionManager.checkCanPlayCard(this);
+        InteractionManager.tryPlayCard(this);
         this.dragging = false;
         // set the interaction data to null
         this.data = null;
