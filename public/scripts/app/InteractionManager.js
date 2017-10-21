@@ -14,7 +14,7 @@ class InteractionManager {
     checkCardHoverOverSlot(card) {
         let largestSlotIntersectArea = 0;
         let largestSlotIntersect = null;
-        for (let slot of GameStateManager.slots) {
+        for (let slot of GameStateManager.playerSlots) {
             let intersectArea = GetRectangleIntersectionArea(slot.getBounds(), card.getBounds());
             if (intersectArea > largestSlotIntersectArea && !slot.isOccupied) {
                 largestSlotIntersectArea = intersectArea;
@@ -33,7 +33,13 @@ class InteractionManager {
         if (this.selectedSlot) 
             this.selectedSlot.drawSlotRectangle(0x0000FF);
     }
-    checkCanPlayCard(card) {
+    tryPlayCard(card) {
+        /* TODO: decompose this logic
+            IM checks intersection
+            GSM checks game state
+            Card updates position and status
+            GSM updates game state and fires server event
+        */
         if (this.selectedSlot) {
             this.selectedSlot.addCard(card);
             card.setBasePosition(this.selectedSlot.getCenterPosition());
