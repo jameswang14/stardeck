@@ -11,20 +11,30 @@ class GameStateManager {
         this.initializeSlots();
     }
     initializeSlots() {
+        let NUM_SLOTS_PER_PLAYER = 3;
+        let SLOT_PADDING = 0;
+        let SLOT_WIDTH = 75;
+        let SLOT_HEIGHT = 100;
+
+        // initialize player's slots
         let slots = [];
-        let numSlots = 3;
-        let slotPadding = 0;
-        let slotWidth = 75;
-        let slotHeight = 100;
         let startX = 200;
         let startY = 200;
-
-        for (var i = 0; i < numSlots; i++) {
-            slots.push(new Slot(startX, startY, slotWidth, slotHeight));
-            startX += slotWidth + slotPadding;
+        for (var i = 0; i < NUM_SLOTS_PER_PLAYER; i++) {
+            slots.push(new Slot(startX, startY, SLOT_WIDTH, SLOT_HEIGHT));
+            startX += SLOT_WIDTH + SLOT_PADDING;
         } 
-        this.slots = slots;
+        this.playerSlots = slots;
 
+        // initialize opponent's slots
+        slots = [];
+        startX = 200;
+        startY = 50;
+        for (var i = 0; i < NUM_SLOTS_PER_PLAYER; i++) {
+            slots.push(new Slot(startX, startY, SLOT_WIDTH, SLOT_HEIGHT));
+            startX += SLOT_WIDTH + SLOT_PADDING;
+        } 
+        this.opponentSlots = slots;
     }
 }
 
