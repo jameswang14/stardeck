@@ -14,11 +14,17 @@ var Container = PIXI.Container,
     Rectangle = PIXI.Rectangle,
     TextureCache = PIXI.utils.TextureCache;
 
+const WIDTH = 400;
+const HEIGHT = 500;
+
 const app = new PIXI.Application();
 const stage = app.stage;
-const renderer = app.renderer;
-
-document.body.appendChild(app.view);
+// todo: center game
+const renderer = PIXI.autoDetectRenderer(WIDTH, HEIGHT);
+document.body.appendChild(renderer.view);
+renderer.view.style.position = 'absolute';
+renderer.view.style.left = '50%';renderer.view.style.top = '50%';
+renderer.view.style.transform = 'translate3d( -50%, -50%, 0 )';
 
 var state = pause;
 var t = new Tink(PIXI, app.view);
@@ -49,7 +55,10 @@ function setup() {
     setupTerran();
 
     // Add all slots;
-    for (var slot of GameStateManager.slots) {
+    for (var slot of GameStateManager.playerSlots) {
+        stage.addChild(slot);
+    }
+    for (var slot of GameStateManager.opponentSlots) {
         stage.addChild(slot);
     }
 
