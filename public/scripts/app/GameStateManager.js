@@ -1,3 +1,4 @@
+// @flow
 /*
 
     Source of truth for game state (eventually). WIP
@@ -5,8 +6,11 @@
 */
 import 'pixi.js'
 import Slot from 'app/objects/Slot'
+import type Card from 'app/objects/Card'
 
 class GameStateManager {
+    playerSlots: array;
+    opponentSlots: array;
     constructor() {
         this.initializeSlots();
     }
@@ -37,13 +41,13 @@ class GameStateManager {
         this.opponentSlots = slots;
     }
 
-    checkCanPlayCard(card, slot) {
+    checkCanPlayCard(card: Card, slot: Slot): boolean {
         // TODO: add more logic
         if (slot.isOccupied)
             return false;
         return true;
     }
-    playCard(card, slot) {
+    playCard(card: Card, slot: Slot) {
         slot.addCard(card);
     }
 }

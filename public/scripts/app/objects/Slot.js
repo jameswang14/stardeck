@@ -1,8 +1,10 @@
+// @flow
 import 'pixi.js'
 import GetRectangleIntersectionArea from 'utils//GetRectangleIntersectionArea.js'
+import Card from 'app/objects/Card'
 
 export default class Slot extends PIXI.Container {
-    constructor(x, y, width, height) {
+    constructor(x: number, y: number, width: number, height: number) {
         super();
         var lineThickness = 5;
         this.card = null;
@@ -28,7 +30,7 @@ export default class Slot extends PIXI.Container {
     getCenterPosition() {
         return new PIXI.Point(this.x + this.fixedWidth / 2, this.y + this.fixedHeight / 2);
     }
-    addCard(card) {
+    addCard(card: Card) {
         if (this.card == null) {
             this.addChild(card);
             this.card = card; 

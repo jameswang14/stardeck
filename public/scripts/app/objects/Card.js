@@ -1,10 +1,11 @@
+// @flow
 import 'pixi.js'
 import InteractionManager from 'app/InteractionManager'
 import GameStateManager from 'app/GameStateManager'
 import CardStatusEnum from 'app/enums/CardStatusEnum'
 
 export default class Card extends PIXI.Sprite {
-    constructor(texture, name, basePosition) {
+    constructor(texture: PIXI.Texture, name: string, basePosition: PIXI.Point) {
         super(texture);
         this.basePosition = basePosition;
         this.resetToBasePosition();
@@ -29,17 +30,17 @@ export default class Card extends PIXI.Sprite {
             .on('mousemove', this.onDragMove)
             .on('touchmove', this.onDragMove);
     }
-    setBasePosition(position) {
+    setBasePosition(position: PIXI.Point) {
         this.basePosition = position;
     }
     resetToBasePosition() {
         this.position = this.basePosition;
         this.interactive = true;
     }
-    setStatus(status) {
+    setStatus(status: string) {
         this.status = status;
     }
-    onDragStart(event) {
+    onDragStart(event: any) {
         // store a reference to the data
         // the reason for this is because of multitouch
         // we want to track the movement of this particular touch
