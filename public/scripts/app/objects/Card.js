@@ -1,5 +1,6 @@
 import 'pixi.js'
 import InteractionManager from 'app/InteractionManager'
+import GameStateManager from 'app/GameStateManager'
 import CardStatusEnum from 'app/enums/CardStatusEnum'
 
 export default class Card extends PIXI.Sprite {
@@ -35,6 +36,9 @@ export default class Card extends PIXI.Sprite {
         this.position = this.basePosition;
         this.interactive = true;
     }
+    setStatus(status) {
+        this.status = status;
+    }
     onDragStart(event) {
         // store a reference to the data
         // the reason for this is because of multitouch
@@ -43,20 +47,30 @@ export default class Card extends PIXI.Sprite {
         this.dragging = true;
     }
     onDragEnd() {
-        InteractionManager.tryPlayCard(this);
+        switch(this.status) {
+            case CardStatusEnum.IN_HAND:
+                let response = InteractionManager.tryPlayCard(this); 
+                if (response.success) {
+                    this.setBasePosition(response.newPosition);
+                    this.setStatus(CardStatusEnum.IN_FIELD);
+                }
+        }
+
         this.dragging = false;
         // set the interaction data to null
         this.data = null;
         this.resetToBasePosition();
     }
-    onDragMove()
-    {
-        if (this.dragging)
-        {
+    onDragMove() {
+        if (this.dragging) {
             let newPosition = this.data.getLocalPosition(this.parent);
             this.position.x = newPosition.x;
             this.position.y = newPosition.y;
-            InteractionManager.checkCardHoverOverSlot(this);
+            // for some reason switch case here doesn't cause the slot to be updated properly
+            if (this.status == CardStatusEnum.IN_HAND)
+                InteractionManager.checkCardHoverOverSlots(this, GameStateManager.playerSlots);
+            else if (this.status == CardStatusEnum.IN_FIELD)
+                InteractionManager.checkCardHoverOverSlots(this, GameStateManager.opponentSlots);
         }
     }
 }

@@ -4,6 +4,7 @@ import Tink from 'lib/Tink'
 import Field from 'app/objects/Field'
 import Card from 'app/objects/Card'
 import GameStateManager from 'app/GameStateManager'
+import CardStatusEnum from 'app/enums/CardStatusEnum'
 
 //Aliases
 var Container = PIXI.Container,
@@ -82,6 +83,9 @@ function setupProtoss() {
     darkTemplarTexture.frame = rectangle;
     var darkTemplar = new Card(darkTemplarTexture, "darkTemplar", darkTemplarBasePosition);
 
+    zealot.setStatus(CardStatusEnum.IN_HAND)
+    darkTemplar.setStatus(CardStatusEnum.IN_HAND);
+
     playerOneHand.addChild(zealot);
     playerOneHand.addChild(darkTemplar);
 }
@@ -93,6 +97,7 @@ function setupTerran() {
     var rectangle = new Rectangle(192, 12, 20, 28);
     marineTexture.frame = rectangle;
     var marine = new Card(marineTexture, "Marine", marineBasePosition);
+    marine.setStatus(CardStatusEnum.IN_HAND)
     playerTwoHand.addChild(marine);
 }
 

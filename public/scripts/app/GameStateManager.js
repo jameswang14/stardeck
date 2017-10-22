@@ -36,6 +36,16 @@ class GameStateManager {
         } 
         this.opponentSlots = slots;
     }
+
+    checkCanPlayCard(card, slot) {
+        // TODO: add more logic
+        if (slot.isOccupied)
+            return false;
+        return true;
+    }
+    playCard(card, slot) {
+        slot.addCard(card);
+    }
 }
 
 const gsm = new GameStateManager();
