@@ -1,10 +1,11 @@
 /*
 
-    Source of truth for game state (eventually). WIP
+    Source of truth for game state and manipulation (eventually).
 
 */
 import 'pixi.js'
 import Slot from 'app/objects/Slot'
+import Player from 'app/objects/Player.js'
 
 class GameStateManager {
     constructor() {
@@ -36,16 +37,31 @@ class GameStateManager {
         } 
         this.opponentSlots = slots;
     }
-
     checkCanPlayCard(card, slot) {
         // TODO: add more logic
-        if (slot.isOccupied)
+        if (slot.isOccupied || Player.resources < card.cost)
             return false;
         return true;
     }
+    // server-verify
     playCard(card, slot) {
+        Player.setResources(Player.resources - card.cost);
+        console.log(Player.resources);
         slot.addCard(card);
     }
+    checkCanAttackCard(card, slot) {
+        // TODO: add logic
+        // Technically shouldn't ever fire but just in case...
+        if (!slot.isOccupied)
+            return false;
+        return true;
+
+    }
+    // server-verify
+    attackCard(card, slot) {
+        let targetCard = slot.card;
+    }
+
 }
 
 const gsm = new GameStateManager();

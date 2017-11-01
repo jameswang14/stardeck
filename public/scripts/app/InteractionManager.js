@@ -1,6 +1,6 @@
 /*
 
-   Manipulates the game state based on incoming events. 
+   Handles rendering detection and routing events accordingly.
 
 */
 import 'pixi.js'
@@ -16,6 +16,7 @@ class InteractionManager {
         let largestSlotIntersect = null;
         for (let slot of slots) {
             let intersectArea = GetRectangleIntersectionArea(slot.getBounds(), card.getBounds());
+            // TODO: add hover color change logic
             if (intersectArea > largestSlotIntersectArea && !slot.isOccupied) {
                 largestSlotIntersectArea = intersectArea;
                 largestSlotIntersect = slot;
@@ -40,6 +41,19 @@ class InteractionManager {
             if (GameStateManager.checkCanPlayCard(card, this.selectedSlot)) {
                 GameStateManager.playCard(card, this.selectedSlot);
                 returnData = {"success": true, "newPosition": this.selectedSlot.getCenterPosition()};
+            }
+            // reset to red
+            this.selectedSlot.drawSlotRectangle(0xFF00000);
+        }
+        this.selectedSlot = null;
+        return returnData;
+    }
+    tryAttackCard(card) {
+        var returnData = {"success": false};
+        if (this.selectedSlot) {
+            if (GameStateManager.checkCanPlayCard(card, this.selectedSlot)) {
+                GameStateManager.attackCard(card, this.selectedSlot)
+                returnData = {"success": true}
             }
             // reset to red
             this.selectedSlot.drawSlotRectangle(0xFF00000);

@@ -77,11 +77,11 @@ function setupProtoss() {
     //size of the sub-image you want to extract from the texture
     var rectangle = new Rectangle(2, 2, 38, 40);
     zealotTexture.frame = rectangle;
-    var zealot = new Card(zealotTexture, "Zealot", zealotBasePosition);
+    var zealot = new Card(zealotTexture, "Zealot", 2, 3, 2, zealotBasePosition);
     
     rectangle = new Rectangle(6, 2, 52, 58);
     darkTemplarTexture.frame = rectangle;
-    var darkTemplar = new Card(darkTemplarTexture, "darkTemplar", darkTemplarBasePosition);
+    var darkTemplar = new Card(darkTemplarTexture, "darkTemplar", 4, 2, 4, darkTemplarBasePosition);
 
     zealot.setStatus(CardStatusEnum.IN_HAND)
     darkTemplar.setStatus(CardStatusEnum.IN_HAND);
@@ -96,7 +96,7 @@ function setupTerran() {
 
     var rectangle = new Rectangle(192, 12, 20, 28);
     marineTexture.frame = rectangle;
-    var marine = new Card(marineTexture, "Marine", marineBasePosition);
+    var marine = new Card(marineTexture, "Marine", 2, 1, 1, marineBasePosition);
     marine.setStatus(CardStatusEnum.IN_HAND)
     playerTwoHand.addChild(marine);
 }
