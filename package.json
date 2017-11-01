@@ -6,7 +6,8 @@
     "build": "webpack",
     "build-dev": "webpack --watch --devtool=source-map",
     "test": "mocha",
-    "start": "npm run build | node app.js"
+    "start": "npm run build | node app.js",
+    "start-dev": "npm run build-dev | nodemon app.js --exec babel-node"
   },
   "dependencies": {
     "body-parser": "~1.15.1",
@@ -15,9 +16,13 @@
     "express": "~4.13.4",
     "jade": "~1.11.0",
     "morgan": "~1.7.0",
-    "serve-favicon": "~2.3.0"
+    "serve-favicon": "~2.3.0",
+    "socket.io": "^2.0.3"
   },
   "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.1",
     "mocha": "^4.0.1",
     "webpack": "^3.8.1"
   }
