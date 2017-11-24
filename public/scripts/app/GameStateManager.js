@@ -10,6 +10,8 @@ import Player from 'app/objects/Player.js'
 class GameStateManager {
     constructor() {
         this.initializeSlots();
+        // values should only be 1 or 2;
+        this.currentTurn = 1;
     }
     initializeSlots() {
         let NUM_SLOTS_PER_PLAYER = 3;
@@ -60,6 +62,13 @@ class GameStateManager {
     // server-verify
     attackCard(card, slot) {
         let targetCard = slot.card;
+    }
+    // server-verify
+    changeTurn() {
+        if (this.currentTurn == 1)
+            this.currentTurn = 2;
+        else
+            this.currentTurn = 1;
     }
 
 }
