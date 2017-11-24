@@ -5,6 +5,8 @@ import Field from 'app/objects/Field'
 import Card from 'app/objects/Card'
 import GameStateManager from 'app/GameStateManager'
 import CardStatusEnum from 'app/enums/CardStatusEnum'
+import NextTurnButton from 'app/objects/NextTurnButton'
+import io from 'socket.io-client'
 
 //Aliases
 var Container = PIXI.Container,
@@ -26,6 +28,8 @@ document.body.appendChild(renderer.view);
 renderer.view.style.position = 'absolute';
 renderer.view.style.left = '50%';renderer.view.style.top = '50%';
 renderer.view.style.transform = 'translate3d( -50%, -50%, 0 )';
+
+var socket = io();
 
 var state = pause;
 var t = new Tink(PIXI, app.view);
@@ -49,6 +53,7 @@ loader
   .add("images/dark-templar-sheet.png")
   .add("images/marine-sheet.png")
   .add("images/rect.svg")
+  .add("images/next_turn.jpg")
   .load(setup);
 
 function setup() {
@@ -63,6 +68,8 @@ function setup() {
         stage.addChild(slot);
     }
 
+    var nextTurnButton = new NextTurnButton(TextureCache["images/next_turn.jpg"], {"x": 800, "y": 200});
+    stage.addChild(nextTurnButton);
     renderer.render(stage);
     state = play;
 }

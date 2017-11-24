@@ -1,6 +1,7 @@
 import express from 'express'
+import path from 'path'
+import SocketManager from './server/SocketManager'
 
-var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
@@ -13,6 +14,7 @@ var app = express();
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
 
+var socketManager = new SocketManager(io);
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -60,5 +62,7 @@ app.use(function(err, req, res, next) {
 
 
 server.listen(3001, function () {
-  console.log('Stardeck running on 3000!')
+  console.log('Stardeck running on 3001!')
 })
+
+
