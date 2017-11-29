@@ -6,6 +6,8 @@ import Card from 'app/objects/Card'
 import GameStateManager from 'app/GameStateManager'
 import CardStatusEnum from 'app/enums/CardStatusEnum'
 import NextTurnButton from 'app/objects/NextTurnButton'
+import InfoPane from 'app/objects/InfoPane'
+import Player from 'app/objects/Player'
 import io from 'socket.io-client'
 
 //Aliases
@@ -30,6 +32,9 @@ renderer.view.style.left = '50%';renderer.view.style.top = '50%';
 renderer.view.style.transform = 'translate3d( -50%, -50%, 0 )';
 
 var socket = io();
+socket.on('newplayer', (data) => {
+    console.log("player " + data);
+});
 
 var state = pause;
 var t = new Tink(PIXI, app.view);
@@ -59,6 +64,7 @@ loader
 function setup() {
     setupProtoss();
     setupTerran();
+    setupInfoPane();
 
     // Add all slots;
     for (var slot of GameStateManager.playerSlots) {
@@ -106,6 +112,12 @@ function setupTerran() {
     var marine = new Card(marineTexture, "Marine", 2, 1, 1, marineBasePosition);
     marine.setStatus(CardStatusEnum.IN_HAND)
     playerTwoHand.addChild(marine);
+}
+
+function setupInfoPane() {
+    var info = new InfoPane({'x': 700, 'y': 700});
+    GameStateManager.infoPane = info;
+    stage.addChild(info);
 }
 
 function play() {

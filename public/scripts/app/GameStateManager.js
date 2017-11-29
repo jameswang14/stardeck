@@ -1,6 +1,6 @@
 /*
 
-    Source of truth for game state and manipulation (eventually).
+    Source of truth for game state and manipulation.
 
 */
 import 'pixi.js'
@@ -48,7 +48,8 @@ class GameStateManager {
     // server-verify
     playCard(card, slot) {
         Player.setResources(Player.resources - card.cost);
-        console.log(Player.resources);
+        if (this.infoPane)
+            this.infoPane.update();
         slot.addCard(card);
     }
     checkCanAttackCard(card, slot) {
